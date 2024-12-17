@@ -29,16 +29,6 @@ def draw_landmarks_on_image(rgb_image, detection_result):
         hand_landmarks = hand_landmarks_list[idx]
         handedness = handedness_list[idx] 
 
-        # print(handedness)
-        # print(handedness[0].category_name)
-
-        # print(range(len(hand_landmarks)))
-        # print(type(hand_landmarks))
-
-
-        # print('done')
-
-        # Draw the hand landmarks.
         hand_landmarks_proto = landmark_pb2.NormalizedLandmarkList()
         #print(hand_landmarks_proto)
 
@@ -80,13 +70,20 @@ DATA_DIR = './data'
 
 
 for dir_ in os.listdir(DATA_DIR):
-    for img_path in os.listdir(os.path.join(DATA_DIR, dir_))[:50]:
+    for img_path in os.listdir(os.path.join(DATA_DIR, dir_)):
         image2 = mp.Image.create_from_file(os.path.join(DATA_DIR, dir_, img_path))
+
         detection_result = detector.detect(image2)
-        draw_landmarks_on_image(image2.numpy_view(), detection_result)
-        #print(data_aux)
-        #data.append(data_aux)
-        labels.append(dir_)
+        hand_landmarks_list = detection_result.hand_landmarks
+        handedness_list = detection_result.handedness
+
+        detected_hands = len(hand_landmarks_list)
+
+        if len(hand_landmarks_list) == 1:
+            draw_landmarks_on_image(image2.numpy_view(), detection_result)
+            labels.append(dir_)
+        else:
+            pass
 
 print(len(data))
 print(len(labels))
