@@ -94,7 +94,7 @@ while True:
     # Convert frames to SRGB
     image2 = mp.Image(image_format=mp.ImageFormat.SRGB, data= img)
 
-    # Obtain all relevant data from hand 
+    # Obtain all data from hand (Left or right, number of hands, hand lanmarks, etc.)
     detection_result = detector.detect(image2)
 
     # Create new frame with Labeled hand sign and drawn results 
