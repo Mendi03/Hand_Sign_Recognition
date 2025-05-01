@@ -22,11 +22,32 @@ else:
 # print(os.getcwd())
 # print(os.listdir())
 
-DATA_DIR = './data'
+DATA_DIR = '.\data'
 
-print('Collecting data for folder: ' + folder)
+good_dir = os.path.join(DATA_DIR, folder)
+
+print(os.getcwd())
+
+print(os.listdir(good_dir))
+
+#data\0\0.jpg
+
+No_files = 0
+# Iterate directory
+
+
+print(good_dir)
+
+# count number of files in specified folder
+for file in os.listdir(good_dir):
+    # check if current path is a file
+    if os.path.isfile(os.path.join(good_dir, file)):
+        No_files += 1
+print('File count:', No_files)
 
 cap = cv2.VideoCapture(0)
+
+
 
 while True:
     success, img = cap.read()
@@ -46,15 +67,19 @@ while True:
     if cv2.waitKey(25) == ord('q'):
         break
 
-No_of_frames = 50
+No_of_frames = 10
 
-while(counter < No_of_frames):
+new_total = No_of_frames + No_files
+
+current_num = No_files
+
+while(current_num < new_total):
     ret, img = cap.read()
     cv2.imshow('Live', img)
     cv2.waitKey(25)
-    cv2.imwrite(os.path.join(DATA_DIR, str(j), '{}.jpg'.format(counter)), img) # This line will save the imges into the data folder, it uses format method instead of fstring to give correct name to the image
+    cv2.imwrite(os.path.join(good_dir, '{}.jpg'.format(current_num)), img) # This line will save the imges into the data folder, it uses format method (Maybe make it fstring) to give correct name to the new captured frame
     
-    counter += 1
+    current_num += 1
 
 cv2.destroyAllWindows()
 
