@@ -26,6 +26,16 @@ labels_dict = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F',
                24: 'Y', 25: 'Z'}
 
 def draw_landmarks_on_image(rgb_image, detection_result):
+    """
+    Important info on Landmarks:
+
+    There are 21 hand landmarks, each composed of x, y and z coordinates. The x and y coordinates are normalized
+    to [0.0, 1.0] by the image width and height, respectively. The z coordinate represents the landmark depth, with 
+    the depth at the wrist being the origin. The smaller the value, the closer the landmark is to the camera. The 
+    magnitude of z uses roughly the same scale as x.
+
+    Taken from: https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker/python
+    """
     hand_landmarks_list = detection_result.hand_landmarks
     handedness_list = detection_result.handedness
     annotated_image = np.copy(rgb_image)
@@ -48,16 +58,16 @@ def draw_landmarks_on_image(rgb_image, detection_result):
         # Get the top left corner of the detected hand's bounding box.
         height, width, _ = annotated_image.shape
 
-        x_coordinates = [landmark.x for landmark in hand_landmarks]
+        x_coordinates = [landmark.x for landmark in hand_landmarks] # Landmark.x 
         y_coordinates = [landmark.y for landmark in hand_landmarks]
 
         text_x = int(min(x_coordinates) * width)
         text_y = int(min(y_coordinates) * height) - MARGIN
 
+
+        # Detects the hand sign and stores predicted letter to 'predicted_character' variable
         both_coords = x_coordinates + y_coordinates
-        
         prediction = model.predict([np.asarray(both_coords)])
-        
         predicted_character = labels_dict[int(prediction[0])]
 
         #print(predicted_character)
@@ -69,11 +79,15 @@ def draw_landmarks_on_image(rgb_image, detection_result):
 
         padding = 20
 
-        cv2.rectangle(annotated_image, (text_x - padding, min_y - padding), (box_x + padding, box_y + padding), (255,0,0), 2)
+        cv2.rectangle(annotated_image, # Image to draw on
+                    (text_x - padding, min_y - padding), # upper left corner coordinates
+                    (box_x + padding, box_y + padding), # bottom right corner coordinates
+                    (255,0,0), # BGR color
+                    2) # Line thickness
 
         # Draw predicted letter.
-        cv2.putText(annotated_image, 
-                    predicted_character,
+        cv2.putText(annotated_image, # Image to show
+                    predicted_character, # Labeled letter
                     (text_x, text_y), 
                     cv2.FONT_HERSHEY_DUPLEX,
                     FONT_SIZE, 
@@ -87,6 +101,7 @@ base_options = python.BaseOptions(model_asset_path='hand_landmarker.task')
 options = vision.HandLandmarkerOptions(base_options=base_options, num_hands=2) # Need to specify 2 hands; if not specified, the script crashes. 
 detector = vision.HandLandmarker.create_from_options(options)
 
+""""""
 while True:
     success, img = cap.read()
     cv2.waitKey(20)

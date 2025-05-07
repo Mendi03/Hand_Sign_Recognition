@@ -33,16 +33,15 @@ def draw_landmarks_on_image(rgb_image, detection_result):
         #print(hand_landmarks_proto)
 
         hand_landmarks_proto.landmark.extend([landmark_pb2.NormalizedLandmark(x=landmark.x, y=landmark.y, z=landmark.z) for landmark in hand_landmarks])
-        solutions.drawing_utils.draw_landmarks(annotated_image,hand_landmarks_proto,solutions.hands.HAND_CONNECTIONS,solutions.drawing_styles.get_default_hand_landmarks_style(),solutions.drawing_styles.get_default_hand_connections_style())
+        solutions.drawing_utils.draw_landmarks(annotated_image,hand_landmarks_proto,
+                                               solutions.hands.HAND_CONNECTIONS,
+                                               solutions.drawing_styles.get_default_hand_landmarks_style(),
+                                               solutions.drawing_styles.get_default_hand_connections_style())
 
         # Get the top left corner of the detected hand's bounding box.
         height, width, _ = annotated_image.shape
 
         x_coordinates = [landmark.x for landmark in hand_landmarks]
-        # print(x_coordinates)
-        # print(range(len(x_coordinates)))
-        # print(type(x_coordinates))
-
         y_coordinates = [landmark.y for landmark in hand_landmarks]
 
         both_coords = x_coordinates + y_coordinates
@@ -66,6 +65,7 @@ for dir_ in os.listdir(DATA_DIR):
 
         detected_hands = len(hand_landmarks_list)
 
+        # Checks if amount of hands detected in image are 1. Also skips images where hand were not detected.
         if len(hand_landmarks_list) == 1:
             draw_landmarks_on_image(image2.numpy_view(), detection_result)
             labels.append(dir_)
