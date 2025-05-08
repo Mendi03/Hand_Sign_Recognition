@@ -25,6 +25,21 @@ labels_dict = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F',
                18: 'S',19: 'T', 20: 'U', 21: 'V', 22: 'W', 23: 'X',
                24: 'Y', 25: 'Z'}
 
+def draw_rectangle(image):
+    size = image.shape
+
+    top_left_x = int(size[1] / 2 - 100)
+    top_left_y = int(size[0] / 2 - 100)
+
+    bottom_right_x = int(size[1] / 2 + 100)
+    bottom_right_y = int(size[0] / 2 + 100)
+
+    cv2.rectangle(image,                                # Image to draw on
+                    (top_left_x, top_left_y),           # upper left corner coordinates
+                    (bottom_right_x, bottom_right_y),   # bottom right corner coordinates
+                    (255,0,0),                          # BGR color
+                    2)                                  # Line thickness
+
 def draw_landmarks_on_image(rgb_image, detection_result):
     """
     Important info on Landmarks:
@@ -116,6 +131,7 @@ while True:
     annotated_image = draw_landmarks_on_image(image2.numpy_view(), detection_result)
 
     # Show new frame in live feed
+    draw_rectangle(annotated_image)
     cv2.imshow('image', annotated_image)
 
     # If 'q' is pressed end script
