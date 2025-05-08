@@ -94,12 +94,14 @@ def draw_landmarks_on_image(rgb_image, detection_result):
 
         padding = 20
 
+        """
         cv2.rectangle(annotated_image, # Image to draw on
                     (text_x - padding, min_y - padding), # upper left corner coordinates
                     (box_x + padding, box_y + padding), # bottom right corner coordinates
                     (255,0,0), # BGR color
                     2) # Line thickness
-
+        """
+                    
         # Draw predicted letter.
         cv2.putText(annotated_image, # Image to show
                     predicted_character, # Labeled letter
