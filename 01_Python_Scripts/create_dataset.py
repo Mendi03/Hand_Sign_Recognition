@@ -22,7 +22,7 @@ DATA_DIR = './data'
 if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
 
-number_of_classes = 26 # Number of hand signs to be detected, 26 is for each letter in the alphabet
+number_of_classes = 26 # Number of hand signs to be detected, 26 is for each letter in the US alphabet
 dataset_size = 5 # Number of images to be taken
 
 cap = cv2.VideoCapture(0)
