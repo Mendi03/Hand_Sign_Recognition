@@ -12,16 +12,16 @@ Live translation of hand signs using the American Sign Language Alphabet.
 
 ![Sign_V](readme_images/sign_V.png)
 
-## Running this project
-
-To replicate the entire process of creating Hand Sign Recognition, please take a look at the jupyter notebook file titled 'hand_sign.ipynb' explaining the process.
-
 ## To Do:
 
 - Alter python script to only take a specific image resolution
 - Jupyter Notebook
 - App development
 - Deployment
+
+## Running this project
+
+To replicate the entire process of creating Hand Sign Recognition, please take a look at the jupyter notebook file titled 'hand_sign.ipynb' explaining the process.
 
 ## Dev Dependencies
 
