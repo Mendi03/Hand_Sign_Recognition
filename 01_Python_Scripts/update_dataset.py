@@ -91,7 +91,7 @@ while(current_num < new_total):
     cv2.imshow('Live', img)
     current_num += 1
 
-cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
 
 cap.release()
 cv2.destroyAllWindows()
