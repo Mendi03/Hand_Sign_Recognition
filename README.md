@@ -31,5 +31,3 @@ Extremely grateful to the following technologies that have allowed for this proj
 - [OpenCV](https://opencv.org/)
 - [Scikit Learn](https://scikit-learn.org/stable/)
 - Python
-- Java
-- Android Studio
