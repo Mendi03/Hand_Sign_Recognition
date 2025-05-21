@@ -2,23 +2,16 @@ from mediapipe import solutions
 from mediapipe.framework.formats import landmark_pb2
 import numpy as np
 import mediapipe as mp
-import cv2
 import os
 import pickle
 
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 
-MARGIN = 10  # pixels
-FONT_SIZE = 1
-FONT_THICKNESS = 1
-HANDEDNESS_TEXT_COLOR = (88, 205, 54) # vibrant green    sdvccx 
-
 data = []
 labels = []
-data_aux = []
 
-def draw_landmarks_on_image(rgb_image, detection_result):
+def store_landmarks(rgb_image, detection_result):
     hand_landmarks_list = detection_result.hand_landmarks
     handedness_list = detection_result.handedness
     annotated_image = np.copy(rgb_image)
@@ -67,7 +60,7 @@ for dir_ in os.listdir(DATA_DIR):
 
         # Checks if amount of hands detected in image are 1. Also skips images where hand were not detected.
         if len(hand_landmarks_list) == 1:
-            draw_landmarks_on_image(image2.numpy_view(), detection_result)
+            store_landmarks(image2.numpy_view(), detection_result)
             labels.append(dir_)
         else:
             pass
@@ -75,21 +68,7 @@ for dir_ in os.listdir(DATA_DIR):
 print(len(data))
 print(len(labels))
 
-f = open('data.pickle', 'wb')
+f = open('data2.pickle', 'wb')
 pickle.dump({'data': data, 'labels': labels}, f)
 f.close()
 
-# STEP 5: Process the classific.
-
-# STEP 6: Process the classification result. In this case, visualize it.
-
-#annotated_image = draw_landmarks_on_image(image2.numpy_view(), detection_result)
-
-#data.append(data_aux)
-
-# print(annotated_image.shape)
-
-#img_rgb = cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB)
-
-#cv2.imshow('image', img_rgb)
-#k = cv2.waitKey(0)
